@@ -1,0 +1,167 @@
+import numpy as np
+import pandas as pd
+
+
+n = 5000
+
+# Generate synthetic features
+dsa_scores = np.random.normal(45, 20, n)
+dsa_scores = np.clip(dsa_scores, 0, 100)
+core_cs_scores = np.random.normal(60, 15, n)
+core_cs_scores = np.clip(core_cs_scores, 0, 100)
+
+aptitude_scores = np.random.normal(50, 15, n)
+aptitude_scores = np.clip(aptitude_scores, 0, 100)
+
+mock_scores = np.random.normal(48, 18, n)
+mock_scores = np.clip(mock_scores, 0, 100)
+communication_rating = np.random.uniform(1, 5, n)
+communication_scaled = (communication_rating / 5) * 100
+
+projects_count = np.random.uniform(0, 5, n)
+projects_scaled = (projects_count / 5) * 100
+
+internship_months = np.random.uniform(0, 6, n)
+internship_scaled = (internship_months / 6) * 100
+
+cgpa_score = np.random.normal(7.5, 1, n)
+cgpa_score = np.clip(cgpa_score, 0, 10)
+cgpa_scaled = (cgpa_score / 10) * 100
+# Create a DataFrame
+
+
+
+
+
+import random
+
+# Let's pick ~1% of students (50 students) to be top performers
+num_top_students = int(0.01 * n)  # 5000 * 1% = 50
+top_indices = random.sample(range(n), num_top_students)
+
+# Boost their scores
+for idx in top_indices:
+    dsa_scores[idx] = random.uniform(85, 100)
+    core_cs_scores[idx] = random.uniform(85, 100)
+    aptitude_scores[idx] = random.uniform(80, 100)
+    mock_scores[idx] = random.uniform(80, 100)
+    communication_rating[idx] = random.uniform(4, 5)
+    projects_count[idx] = random.uniform(4, 5)
+    internship_months[idx] = random.uniform(5, 6)
+    cgpa_score[idx] = random.uniform(8, 10)
+# Scale Communication, Projects, Internship, CGPA as before
+communication_scaled = (communication_rating / 5) * 100
+projects_scaled = (projects_count / 5) * 100
+internship_scaled = (internship_months / 6) * 100
+cgpa_scaled = (cgpa_score / 10) * 100
+
+# Recalculate readiness score
+readiness_score = (
+    0.20 * dsa_scores +
+    0.15 * core_cs_scores +
+    0.15 * projects_scaled +
+    0.15 * internship_scaled +
+    0.12 * mock_scores +
+    0.09 * aptitude_scores +
+    0.09 * communication_scaled +
+    0.05 * cgpa_scaled
+)
+    
+
+# Reclassify
+
+
+# Print sample output
+print("First 5 Readiness Scores:", readiness_score[:5])
+print("Average Readiness Score:", np.mean(readiness_score))
+def classify(score):
+    if score < 40:
+        return "Beginner"
+    elif score < 60:
+        return "Developing"
+    elif score < 70:
+        return "Almost Ready"
+    else:
+        return "Placement Ready"
+
+categories = [classify(score) for score in readiness_score]
+data = pd.DataFrame({
+    "DSA": dsa_scores,
+    "Core_CS": core_cs_scores,
+    "Aptitude": aptitude_scores,
+    "Mock": mock_scores,
+    "Communication": communication_rating,
+    "Projects": projects_count,
+    "Internship": internship_months,
+    "CGPA": cgpa_score,
+    "Readiness_Score": readiness_score,
+    "Category": categories
+})
+
+# See first 5 rows
+print(data.head())
+data.to_csv("synthetic_students.csv", index=False)
+df = pd.read_csv("synthetic_students.csv")
+
+#print("First 5 Categories:", categories[:5])
+print(categories.count("Placement Ready"))
+print(categories.count("Beginner"))
+print(categories.count("Developing"))
+print(categories.count("Almost Ready"))
+def calculate_readiness(dsa, core_cs, aptitude, mock, communication, projects, internship, cgpa):
+    # Scale ratings
+    communication_scaled = (communication / 5) * 100
+    projects_scaled = (projects / 5) * 100
+    internship_scaled = (internship / 6) * 100
+    cgpa_scaled = (cgpa / 10) * 100
+    
+    # Weighted readiness score
+    score = (
+        0.20 * dsa +
+        0.15 * core_cs +
+        0.15 * projects_scaled +
+        0.15 * internship_scaled +
+        0.12 * mock +
+        0.09 * aptitude +
+        0.09 * communication_scaled +
+        0.05 * cgpa_scaled
+    )
+    
+    # Classification
+    if score < 40:
+        category = "Beginner"
+    elif score < 60:
+        category = "Developing"
+    elif score < 70:
+        category = "Almost Ready"
+    else:
+        category = "Placement Ready"
+    
+    # Suggestions logic
+    suggestions = []
+    
+    if dsa < 70:
+        suggestions.append(f"Improve DSA by {max(0, 70 - dsa):.1f} points")
+    if core_cs < 65:
+        suggestions.append(f"Improve Core CS by {max(0, 65 - core_cs):.1f} points")
+    if aptitude < 60:
+        suggestions.append(f"Improve Aptitude by {max(0, 60 - aptitude):.1f} points")
+    if mock < 60:
+        suggestions.append(f"Practice Mock Interviews to reach 60+")
+    if projects < 3:
+        suggestions.append(f"Work on {max(0, 3 - projects):.0f} strong projects")
+    if internship < 2:
+        suggestions.append(f"Gain at least {max(0, 2 - internship):.0f} months internship")
+    if cgpa < 7:
+        suggestions.append(f"Focus on CGPA improvement to reach 7+")
+    if communication < 3:
+        suggestions.append(f"Improve communication skills")
+    
+    return score, category, suggestions
+score, category, suggestions = calculate_readiness(
+    dsa=55, core_cs=60, aptitude=50, mock=45, communication=3.5, projects=2, internship=1, cgpa=6.8
+)
+
+print("Readiness Score:", score)
+print("Category:", category)
+print("Suggestions:", suggestions)

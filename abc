@@ -1,0 +1,21 @@
+import pandas as pd
+
+# Create a DataFrame
+data = pd.DataFrame({
+    "DSA": dsa_scores,
+    "Core_CS": core_cs_scores,
+    "Aptitude": aptitude_scores,
+    "Mock": mock_scores,
+    "Communication": communication_rating,
+    "Projects": projects_count,
+    "Internship": internship_months,
+    "CGPA": cgpa_score,
+    "Readiness_Score": readiness_score,
+    "Category": categories
+})
+
+# See first 5 rows
+print(data.head())
+data.to_csv("synthetic_students.csv", index=False)
+df = pd.read_csv("synthetic_students.csv")
+
