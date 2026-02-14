@@ -38,4 +38,25 @@ A web app that helps students assess their placement readiness, visualize skill 
 1. Clone the repository:
    ```bash
    git clone https://github.com/PriyankaMurthy39/placement-readiness-tool.git
+2.Navigate to the folder:
+cd placement-readiness-tool
 
+3.Install dependencies:
+pip install -r requirements.txt
+
+4.Run the app:
+streamlit run app.py
+
+📈 Example Output
+Skill bars showing performance in each category
+Readiness score and category (Beginner, Developing, Almost Ready, Placement Ready)
+Personalized improvement suggestions
+
+🧑‍💻 Author
+
+Priyanka Murthy
+AI & Data Science Student
+
+ 
+  
+ 
