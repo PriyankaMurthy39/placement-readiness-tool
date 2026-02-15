@@ -27,8 +27,10 @@ A web app that helps students assess their placement readiness, visualize skill 
 
 ## 📸 Screenshots
 
-![Homepage Screenshot](images/homepage.png)  
-![Calculator Screenshot](images/calculator.png)  
+![Homepage1 Screenshot](images/homepage.png)  
+![Calculator1 Screenshot](images/calculator.png)  
+![Homepage2 Screenshot](images/homepage1.png)  
+![Calculator2 Screenshot](images/calculator1.png)  
 *Add screenshots of your app here for better impact.*
 
 ---
